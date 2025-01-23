@@ -1,8 +1,71 @@
+# Start DevOps with Docker
+## 1. DevOps, Docker and Containerization
+  - As per Docker docs: "Docker is used to develop, ship, and run applications within lightweight containers. This approach allows developers to separate their applications from their business infrastructure, giving them the power to deliver better code more quickly."
+  - The basic components of Docker include:
+  Docker images: Docker images are the blueprints for your containers. They are read-only templates that contain the instructions for creating a Docker container. You can think of a container image as a snapshot of a specific state of your application.
+  
+  Containers: Containers are the instances of Docker images. They are lightweight and portable, encapsulating your application along with its dependencies. Containers can be created, started, stopped, moved, and deleted using simple Docker commands.
+  
+  Dockerfiles: A Dockerfile is a text document containing a series of instructions on how to build a Docker image. It includes commands for specifying the base image, copying files, installing dependencies, and setting up the environment. 
+  
+  Docker Engine: Docker Engine is the core component of Docker. It’s a client-server application that includes a server with a long-running daemon process, APIs for interacting with the daemon, and a CLI client.
+  
+  Docker Desktop: Docker Desktop is a commercial product sold and supported by Docker, Inc. It includes the Docker Engine and other open source components, proprietary components, and features like an intuitive GUI, synchronized file shares, access to cloud resources, debugging features, native host integration, governance, security features, and administrative settings management. 
+  
+  Docker Hub: Docker Hub is a public registry where you can store and share Docker images. It serves as a central place to find official Docker images and user-contributed images. You can also use Docker Hub to automate your workflows by connecting it to your CI/CD pipelines.
+
+  More about DevOps, Docker and Containerization, [Click here](https://www.docker.com/blog/docker-for-devops/#:~:text=Docker%20is%20used%20to%20develop,deliver%20better%20code%20more%20quickly)
+
+## 2. Install and introduction
+Installation guide from official Docker documentation: [Click here](https://docs.docker.com/engine/install/)
+
+## 3. Important Docker Concepts: Registry, Repository, Tag, Image, Conta
+  1. Registry: A Docker registry is a system for versioning, storing and distributing Docker images.
+  2. Docker Hub: DockerHub is a hosted registry used by default when installing the Docker engine, but there are other hosted registries available for public use such as AWS and Google's own registries.
+  3. Docker Repository: A Docker Hub repository is a collection of container images, enabling you to store, manage, and share Docker images publicly or privately. Each repository serves as a dedicated space where you can store images associated with a particular application, microservice, or project.
+## 4. Docker for: Java, Javascript, Python applications
+  1. Java: Image and Container
+     - CMD To run a docker image: docker run -p 5000:5000 in28min/hello-world-java:0.0.1.RELEASE
+     - CMD to run a docker image in detached mode: docker run -d -p 5000:5000 in28min/hello-world-java:0.0.1.RELEASE
+  2. Javascript: Image and Container
+     - CMD To run a docker image: docker run -p 5100:5100 in28min/hello-world-nodejs:0.0.1.RELEASE
+     - CMD to run a docker image in detached mode: docker run -d -p 5100:5100 in28min/hello-world-nodejs:0.0.1.RELEASE
+  3. Python: Image and Container
+     - CMD To run a docker image: docker run -p 5200:5200 in28min/hello-world-python:0.0.1.RELEASE
+     - CMD to run a docker image in detached mode: docker run -d -p 5200:5200 in28min/hello-world-python:0.0.1.RELEASE
+   4. Rest of the commands are listed at the end of this file, [Click here](https://github.com/SoumyaKumbar1096/DevOps-Docker-Kubernetes-Terraform-and-Azure-DevOps/edit/main/Docker%20Command%20List.md#docker-command-list).   
+## 5. Docker detached mode and logs
+  - CMD to run a docker image in detached mode: docker run -d -p *hostport*:*dockerport* *repositorylinktoimage*
+  - docker logs *imageID*
+## 6. Docker Architecture
+![image](https://github.com/user-attachments/assets/f5b68dbb-e5db-4bc8-ac91-790fa08c3739)
+
+## 8. Docker Layers
+ A Docker image is composed of multiple layers stacked on top of each other. Each layer represents a specific modification to the file system (inside the container), such as adding a new file or modifying an existing one.
+ Link to detailed information on Docker layering, [Click here](https://docs.docker.com/get-started/docker-concepts/building-images/understanding-image-layers/)
+## 9. ENTRYPOINT vs CMD
+| Aspect |	ENTRYPOINT |	CMD |
+| Purpose |	Defines the main command to be executed |	Provides default arguments or a default command |
+| Overridability |	Not easily overridden at runtime |	Easily overridden at runtime |
+| Behavior with arguments |	Arguments passed at runtime are appended |	Completely replaced by arguments at runtime |
+| Default if not specified |	/bin/sh -c |	None |
+| Use case |	For containers that always run the same command |	For providing default behavior that can be changed |
+| Combining with the other |	Used to set the main executable |	Used to provide default arguments to ENTRYPOINT |
+| Multiple declarations |	Only the last ENTRYPOINT is used |	Only the last CMD is used |
+| Shell vs Exec form |	Exec form preferred (['command', 'param1']) |	Exec form preferred (['command', 'param1']) |
+## 10. Docker and Microservices
+  1. Running microservices as Docker containers
+  2. Use Docker Link to Connect Microservices
+  3. Use Custom networking to Connect Microservices
+  4. Use Docker Compose to Simplify Microservices Launch
+  5. More about Docker Compose
+
+<a id="docker-cmdlist"></a>
 # Docker command list
 
 * docker --version
 * docker run -p 5000:5000 in28min/hello-world-python:0.0.1.RELEASE
-* docker run -p 5000:5000 in28min/hello-world-java:0.0.1.RELEASE
+** docker run -p 5000:5000 in28min/hello-world-java:0.0.1.RELEASE
 * docker run -p 5000:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
 * docker run -d -p 5000:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
 * docker run -d -p 5001:5000 in28min/hello-world-python:0.0.1.RELEASE
@@ -96,12 +159,3 @@
 * docker build -t in28min/hello-world-nodejs:0.0.1.RELEASE .
 * docker push in28min/hello-world-nodejs:0.0.1.RELEASE
 
-# Understanding the Image layers
-Official link to dockerdocs - https://docs.docker.com/get-started/docker-concepts/building-images/understanding-image-layers/
-Each layer in an image contains a set of filesystem changes - additions, deletions, or modifications. Let’s look at a theoretical image:
-
-* The first layer adds basic commands and a package manager, such as apt.
-* The second layer installs a Python runtime and pip for dependency management.
-* The third layer copies in an application’s specific requirements.txt file.
-* The fourth layer installs that application’s specific dependencies.
-* The fifth layer copies in the actual source code of the application.
